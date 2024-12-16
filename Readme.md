@@ -145,6 +145,7 @@ How to remove that CORS error? So that our frontend can interact with backend.
     > Mkdir src
 
     > cd. > index.js/app.js/constants.js
+
 6. make changes in the "package.json"
 
     > type: module
@@ -153,6 +154,104 @@ How to remove that CORS error? So that our frontend can interact with backend.
         
         - npm i -D nodemon
         - scripts > "dev": "nodemon src/index.js"
-        
+
+7. create folders in "src"
+- controllers
+- db => connect database
+- middlewares 
+
+    > koi code aapko in b/w run karana hai. 
+
+    > aapke paas koi request ayi, vo request server fullfill kare usse pehle hi mai beech mai checking lagana chahata hu toh wo middleware ke anadar karta hu.
+- models
+- routes
+- utils => file upload, send mail, token lena/dena
+
+8. Install "Prettier"
+
+    > npm i -D prettier
+    > create ".prettierrc" file
+    > add settings in that file
+    > create ".prettierignore" file => kis-2 mai file mai mujhe prettier ko implement nhi karna hai
+    > add files in ".prettierignore"
+
+9. 
+
+## Video8: How to connect DB in MERN?
+
+- mongodb atlas
+
+    > mongodb sub-service where they provide online DB
+    1. create Organization
+    2. create project
+    3. create cluster(DB)
+
+    > 'mongodb' mai enter karne ke liye specially "atlas" ke thorugh you need 3 things 
+    1. your IP address should have permission to enter in the DB => go to Network Access
+    2. correct username and password => go to Database Access
+    3. you should have the MONGODB_URI/URL(string) of the database/cluster => will get it when connecting to the cluster
+
+1. go to .env and add
+
+    > PORT
+    > MONGODB_URI
+
+2. go to "src" and add DB name in the "constants.js"
+    > export const DB_NAME = "DB_NAME"
+
+3. Approach to connect DB
+
+    > create a "DB" folder
+    > write my DB connection function in that folder
+    > import that function in my "index.js" and execute it. 
+
+4. install express, mongoose, dotenv
+
+5. Two things to remember before connecting to DB
+- DB se baat karne mai problem hoti hai(try/catch)
+- DB se baat karne mai time lagta hai(async/await)
+
+### Steps to connect to DB 
+1. Not so good approach
+
+    > import 'mongoose' in index.js
+
+    > import "DB_NAME" in index.js
+
+    > write a function to connect to DB
+
+    > import "express" in index.js
+
+    > check if our "express" app is able to talk to our DB or not
+
+    > start listening through "express" 
+
+2. Good approach
+
+    > create a "index.js" in /src/db
+
+    > import 'mongoose' in index.js
+
+    > import "DB_NAME" in index.js
+
+- Note: "nodeJS" gives you access of "process". Our current application is running on a process and we give reference of that process.
+
+    > write a function to connect to DB
+
+- Note: when you connect to a DB, mongoose will return you an "object"
+    
+    > export the function
+
+    > import in "index.js" file and execute it.
+
+- Make sure that your environment variables are available to every file as soon as you deploy your code. Steps are given below.
+
+    > import dotenv in index.js
+    
+    > dotenv.config({
+        path: '.env'
+        })
+
+    > "dev": "nodemon -r dotenv/config --experimental-json-modules src/index.js"
 
 
