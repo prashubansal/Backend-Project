@@ -310,4 +310,52 @@ How to remove that CORS error? So that our frontend can interact with backend.
 
 - Middleware: when a user try to access any resource from our server, we check if that user is eligible or not before letting him access that resource. So, this inbetween checking is called middleware.
 
+## Video10: User and video model with hooks and JWT
 
+- Objective
+    > inject plugin in video model
+
+    > write advance level aggregation pipeline
+
+1. Create User and Video model
+2. for "watchHistory" in User model
+- install "mongoose-aggregate-paginate-v2" package
+    > it allows to write aggregation queries
+
+    > it is used as a plugin
+
+3. import it in "video.model.js"
+4. before exporting the Video model use this package, now we can write aggregation queries
+    > add as a plugin thorugh videoSchema using "plugin" hook of mongoose
+
+5. install "bcrypt".
+    > A library to help you hash passwords.
+
+6. install "jsonwebtoken"
+    > [to understand jwt](https://jwt.io/) 
+    
+    > tokens are made using cryptographic algos
+
+    > it has three parts: header, payload, verify Signature
+
+7. import "bcrypt" and "jwt" in User model
+8. now encrypt the password using "pre" hook of mongoose in "User" model
+    > It is a prebuilt middleware: jaise hi aapka data save hone jaa rha hoga, just use pehle ise run karwa sakte ho(in our case encrypt the password)
+
+9. make custom method to check/validate the password using "bcrypt"
+
+10. "jwt"
+- it is a bearer token
+- bearer token: whoever has this token will recieve the data
+
+11. go to .env file
+    > ACCESS_TOKEN_SECRET= random complex string 
+
+    > ACCESS_TOKEN_EXPIRY= life time
+
+    > REFRESH_TOKEN_SECRET
+
+    > REFRESH_TOKEN_EXPIRY= more life time than access token
+
+12. REFRESH_TOKEN is stored in DB not ACCESS_TOKEN, both are "jwt" tokens
+13. write methods to generate access and refresh tokens
