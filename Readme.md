@@ -1,91 +1,115 @@
 ## Roadmap of Backend
 ### Libraraies used in Javascript
-Express -> used for routing purpose
-mongoose -> used for interacting with database
+- Express -> used for routing purpose
+- mongoose -> used for interacting with database
 
 ### A JS based backend
-- we handle these 
+we handle these 
     > Data
+
     > File
+
     > Third party (API)
 
 ### Directory structure for backend
-- src
-- files
+src
+
+- /src/files
     > index: DB connects
+
     > app: configuration, cookies, urlencode
+
     > constants: enums, DB-name
-- folders
+
+- /src/folders
     > DB: contains actual code jo DB se connect karta hai 
+
     > Models: contains data structure/schema/models
+
     > Controllers: functionality
+
     > Routes: 
+
     > Middlewares: 
+
     > Utils: code snippets that will be used repeatedly in a project
+
     > More (depends)
 
 ## Video2: How to deploy backend code in production
-
-we will use two packages 
+we will use these packages 
 1. ExpressJS -> to make a server and listen on the it
 2. Mongoose -> to interact with DB
 3. dotenv -> to provide the variables
 
 ### Steps
 1. Make a empty node application
-
     > npm init -> create a package.json file, It only covers the most common file
+
     > create entry file (Index.js)
+
     > change the script in the package.json
 
 2. Install Exprees
     > npm i express
+
     > npm i dotenv
 
 3. Go to index.js
     > import the express and dotenv module
+
     > create a app using express object
+
     > provide a port to listen by server using '.env' file
-        > process.env.PORT (variable name)
+    - process.env.PORT (variable name)
+
     > provide the routes and how to handle the request.
+
     > start listening on that port
 
 ## Video3: How to connect frontend and backend in JS.
-
-- Two ways to assemble all JS files
+Two ways to assemble all JS files
 1. CommonJS => use the 'require' statement => code will come synchronously
 2. ModuleJS => use the 'import' statement => code will come Asynchronously
 
 - How to use import statement in your code
     > go to package.json file 
+
     > insert "type" : "module"; before scripts
 
 3. created a simple backend and start the server.
 4. create a frontend thorugh "vite"
     > npm create vite@latest .
     - creates the file structure on the same directory
+
     > npm i 
+
     > npm run dev
+
     > write your code in app.jsx
+
     > Install a package "Axios"
     - npm i axios 
-    - This library is written for making web request efficiently and how to handle them professionaly.
+    - This library is written for making web request 
+    efficiently and how to handle them professionaly.
     > import axios from "axios" in app.jsx
+
     > make a get request through axios on the backend url to fetch some data. 
 
 ### CORS(Cross-Origin Resource sharing)
-- It's a browser's in-built security system to prevent resource sharing from different origin.
+It's a browser's in-built security system to prevent resource sharing from different origin.
 
 How to remove that CORS error? So that our frontend can interact with backend. 
 <!-- 1. whitelist the frontend url in backend -->
 2. follow the "standard url" in backend in app.get
 3. change that url in frontend also
 4. No need to write full url (http://localhost:3000/api/jokes) in frontend for making request, instead you can write like 
-- /api/jokes
+- /api/jokes, or
 - /api/v1/jokes
 5. we can implement 4th step and remove CORS error using "proxy"
 - How to use proxy in Vite?
     > go to "vite.config.js"
+    
     > add proxy in the server
 - When you add proxy in the vite.config.js, you basically telling the vite that any outgoing request which has the word (/api), automatically append the baseURL (http://localhost:5000). 
 ------------------------------ AND -------------------------------
@@ -170,12 +194,14 @@ How to remove that CORS error? So that our frontend can interact with backend.
 8. Install "Prettier"
 
     > npm i -D prettier
-    > create ".prettierrc" file
-    > add settings in that file
-    > create ".prettierignore" file => kis-2 mai file mai mujhe prettier ko implement nhi karna hai
-    > add files in ".prettierignore"
 
-9. 
+    > create ".prettierrc" file
+
+    > add settings in that file
+
+    > create ".prettierignore" file => kis-2 mai file mai mujhe prettier ko implement nhi karna hai
+
+    > add files in ".prettierignore"
 
 ## Video8: How to connect DB in MERN?
 
@@ -194,6 +220,7 @@ How to remove that CORS error? So that our frontend can interact with backend.
 1. go to .env and add
 
     > PORT
+
     > MONGODB_URI
 
 2. go to "src" and add DB name in the "constants.js"
@@ -202,7 +229,9 @@ How to remove that CORS error? So that our frontend can interact with backend.
 3. Approach to connect DB
 
     > create a "DB" folder
+
     > write my DB connection function in that folder
+    
     > import that function in my "index.js" and execute it. 
 
 4. install express, mongoose, dotenv
@@ -253,5 +282,32 @@ How to remove that CORS error? So that our frontend can interact with backend.
         })
 
     > "dev": "nodemon -r dotenv/config --experimental-json-modules src/index.js"
+
+## Video9: Custom api response and error handling
+
+- import express in app.js, create app, export it
+- go to "index.js"
+- import "app"
+- start listening to port through "app"
+
+- EXPRESS (Request, Response)
+
+    > req.params => URL se jab bhi koi data ata hai vo "req.params" se hi ata hai
+
+    > req.body => data can come in different forms like (forms, json, etc.)
+
+    > req.cookies => 
+
+- app.use() => to use middlewares or configuration ke liye use ata hai.
+
+1. install cookie-parser, cors
+2. import cookieParser and cors in app.js
+3. configure cors using app.use()
+4. configure express for incoming data from frontend. 
+5. configure cookieParser.
+
+- cookieParser: I can access user's browser cookies and also set them in user's browser from my server.
+
+- Middleware: when a user try to access any resource from our server, we check if that user is eligible or not before letting him access that resource. So, this inbetween checking is called middleware.
 
 
