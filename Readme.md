@@ -410,3 +410,27 @@ How to remove that CORS error? So that our frontend can interact with backend.
 - [Read about "file" from multer docs]()
 - try to change the filename as per your need (usecase: if muliple user upload file with same name)
 
+## Video13: Guide for router and controller 
+
+- start writing controllers and routes
+
+1. create "user.controller.js" and write your methods/functionalities related to user 
+- create "userRegister" in "user.controller.js" and export it
+
+2. we will create routes for user in "routes" folder 
+- create router and export it
+
+3. import "userRegister" and "router" in "app.js"
+- we cannot use "app.get()", because router ko hum alag nikal ke le gye hai, toh ab router ko laane ke liye middleware lana padega
+- hence, we'll do "app.use()"
+
+4. In "app.js" redirect the user to "routes" file and from there handle request and redirect it to "controllers".
+
+
+## Video14: Logic Building | Register Controller
+
+1. "User" in user.model.js => It can directly contact DB, kyuki ye mongoose ke through bana hai 
+
+
+
+
