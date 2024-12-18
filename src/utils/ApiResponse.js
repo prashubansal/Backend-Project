@@ -11,6 +11,8 @@ class ApiResponse {
     }
 }
 
+export {ApiResponse}
+
 // 1. Informational responses (100 – 199)
 // 2. Successful responses (200 – 299)
 // 3. Redirection messages (300 – 399)
