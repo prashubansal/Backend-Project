@@ -310,6 +310,10 @@ How to remove that CORS error? So that our frontend can interact with backend.
 
 - Middleware: when a user try to access any resource from our server, we check if that user is eligible or not before letting him access that resource. So, this inbetween checking is called middleware.
 
+6. create a routeHandler function (asyncHandler)
+7. create custom error, and response for any request and response
+
+
 ## Video10: User and video model with hooks and JWT
 
 - Objective
@@ -328,7 +332,7 @@ How to remove that CORS error? So that our frontend can interact with backend.
 4. before exporting the Video model use this package, now we can write aggregation queries
     > add as a plugin thorugh videoSchema using "plugin" hook of mongoose
 
-5. install "bcrypt".
+5. install "bcrypt"
     > A library to help you hash passwords.
 
 6. install "jsonwebtoken"
@@ -359,3 +363,50 @@ How to remove that CORS error? So that our frontend can interact with backend.
 
 12. REFRESH_TOKEN is stored in DB not ACCESS_TOKEN, both are "jwt" tokens
 13. write methods to generate access and refresh tokens
+
+## Video11: How to upload file in backend | Multer
+
+- file handling is backend work not frontend
+- Express does not have file uploading capabilities directly
+- file uploading is not done on your own server
+- it is kept as a utility and same concept applies to video, pdf, etc.
+- wherever you need it, inject it as a middleware
+
+- Services: cloudinary, "multer" package
+    > npm i multer cloudinary
+
+- Strategy:
+    1. user se file upload karwaenge - "multer" ke thorugh hi file upload hoti hai direct cloudinary nhi hota hai
+        - cloudinary aap se file leti hai aur apne server pe upload kar deti hai
+        - we will keep the file on our local server temporarily
+
+    2. then using cloudinary we take that file from local storage and upload on cloudinary server.
+
+1. create a utility "cloudinary.js"
+2. import cloudinary in "cloudinary.js"
+3. import fs(file system) 
+- no need to install the "fs" library, this comes with nodeJS, helps in read, write, remove the file
+- we need local path from "fs"
+4. configure cloudinary
+- this configuration allows you to upload the file on cloudinary
+
+5. create a method "uploadOnCloudinary"
+- pass the local file path in this method and it will upload the file 
+- if successfully upload ho gyi toh local file ko unlink kar dunga from fs
+- you'll get the response after uploading the file on cloudinary
+- print the response and read it
+
+6. We'll make a middleware using multer
+- we can directly use multer but,
+- we'll use this as a middleware, so that we can inject it wherever we want file uploading feature.
+
+<!-- this will solve the "localFilePath" problem -->
+7. create a file "multer.middleware.js"
+<!-- Read about multer for better understanding -->
+- [Understand multer](https://github.com/expressjs/multer)
+1. import "multer"
+2. use multer.diskStorage
+3. "diskStorage" will return the "localFilePath"
+- [Read about "file" from multer docs]()
+- try to change the filename as per your need (usecase: if muliple user upload file with same name)
+
