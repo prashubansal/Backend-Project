@@ -418,19 +418,32 @@ How to remove that CORS error? So that our frontend can interact with backend.
 - create "userRegister" in "user.controller.js" and export it
 
 2. we will create routes for user in "routes" folder 
-- create router and export it
+- create router in "user.routes.js" and export it
 
-3. import "userRegister" and "router" in "app.js"
-- we cannot use "app.get()", because router ko hum alag nikal ke le gye hai, toh ab router ko laane ke liye middleware lana padega
-- hence, we'll do "app.use()"
-
+3. import "router" in "app.js"
 4. In "app.js" redirect the user to "routes" file and from there handle request and redirect it to "controllers".
+- we cannot use "app.get()", because router ko hum alag nikal ke le gye hai, toh ab router ko laane ke liye middleware lana padega
+- hence, we'll do "app.use()" to redirect all the request related to user to "user.routes.js"
+- from "user.routes.js", router will direct user/request to the    user.controller.js
+- and execute the requested controller in the user.controller.js like
+    > /register: userRegister
+    > /login: userLogin, etc..
+
 
 
 ## Video14: Logic Building | Register Controller
 
 1. "User" in user.model.js => It can directly contact DB, kyuki ye mongoose ke through bana hai 
 
+## Video15: How to use postman for backend
 
+- as soon as file gets successfully uploaded on cloudinary, unlink the file from "fs"
+- console.log(response): Read it
+- console.log(req.body)
+- console.log(req.files)
+
+- configure the postman for checking the API
+1. create a new collection
+2. 
 
 

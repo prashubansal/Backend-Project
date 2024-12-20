@@ -1,6 +1,6 @@
 import {asyncHandler} from '../utils/asyncHandler.js'
-import ApiError from '../utils/ApiError.js'
-import ApiResponse from '../utils/ApiResponse.js'
+import {ApiError} from '../utils/ApiError.js'
+import {ApiResponse} from '../utils/ApiResponse.js'
 import {User} from "../models/user.model.js"
 import {uploadOnCloudinary} from "../utils/cloudinary.js"
 
@@ -15,9 +15,9 @@ const registerUser = asyncHandler(async (req, res) => {
     // check for user creation 
     // return response
 
-    // got the user details
+    // get the user details
     const {fullname, email, username, password} = req.body
-    console.log("email: ", email);
+    // console.log("email: ", email);
 
     // validation, if fields are empty
     if (
@@ -38,9 +38,14 @@ const registerUser = asyncHandler(async (req, res) => {
     // check for images, check for avatar
     // middleware add more things in "req" object
     // we are getting access of ".files" because of multer
-    // console log "req.files"
+    // console.log(req.files)
     const avatarLocalPath = req.files?.avatar[0]?.path
-    const coverImageLocalPath = req.files?.coverImage[0]?.path
+    // const coverImageLocalPath = req.files?.coverImage[0]?.path
+
+    let coverImageLocalPath
+    if (req.files && Array.isArray(req.files.coverImage) && req.files.coverImage.length > 0){
+        coverImageLocalPath = req.files.coverImage[0].path
+    }
 
     if (!avatarLocalPath){
         throw new ApiError(400, "avatar files is required")
@@ -58,7 +63,7 @@ const registerUser = asyncHandler(async (req, res) => {
     const user = await User.create({
         fullname,
         avatar: avatar.url,
-        username: username.toLowerCase(),
+        username,
         password,
         coverImage: coverImage?.url || "",
         email
