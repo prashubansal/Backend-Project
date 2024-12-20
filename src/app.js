@@ -17,7 +17,7 @@ app.use(express.urlencoded({extended: true, limit: "16kb"}))
 // to configure express for storing buffer data in my own server in public folder => ki ye public assets hai koi access karlo
 app.use(express.static("public"))
 
-//to configure cookieParser
+//to configure cookieParser: to add cookie in req, res
 app.use(cookieParser())
 
 

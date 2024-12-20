@@ -4,6 +4,23 @@ import {ApiResponse} from '../utils/ApiResponse.js'
 import {User} from "../models/user.model.js"
 import {uploadOnCloudinary} from "../utils/cloudinary.js"
 
+const generateAccessAndRefreshTokens = async(userId){
+    try {
+        const user = await User.findById(userId)
+        const accessToken = user.generateAccessToken()
+        const refreshToken = user.generateRefreshToken()
+
+        //save refresh token in DB 
+        user.refreshToken = refreshToken
+        await user.save({validateBeforeSave: false})
+
+        return {accessToken, refreshToken}
+
+    } catch (error) {
+        throw new ApiError(500, "Something went wrong while generating refresh and access token")
+    }
+}
+
 const registerUser = asyncHandler(async (req, res) => {
     // get user details from frontend
     // validation - fields are not empty, correct format of data
@@ -87,4 +104,123 @@ const registerUser = asyncHandler(async (req, res) => {
     )
 })
 
-export {registerUser}
+const loginUser = asyncHandler(async (req, res) => {
+    //get login details from frontend
+    //check if that user exists in our db
+    //validate the password
+    //generate the access and refresh token
+    //return the user details to frontend(-password)
+    //save the refresh and access token in user's browser using cookieParser
+
+    //1. req body -> data
+    //2. username or email based login
+    //3. find the user
+    //4. password check
+    //5. access and refresh token
+    //6. send cookies
+
+
+    //1. req body -> data
+    const {email, username, password} = req.body
+
+    //2. username or email based login
+    if(!(username || email)){
+        throw new ApiError(400, "username or email is required")
+    }
+
+    //3. find the user
+    // findOne -> as soon as it get the first document/entry in mongoDB it returns that document 
+    const user = await User.findOne({
+        $or: [{username}, {email}]
+    })
+
+    if(!user){
+        throw new ApiError(404, "User does not exist")
+    }
+
+    //4. password check
+    const isPasswordValid = await user.isPasswordCorrect(password)
+
+    if(!isPasswordValid){
+        throw new ApiError(401, "Your password is incorrect")
+    }
+
+    //5. access and refresh token
+    const {accessToken, refreshToken} = await generateAccessAndRefreshTokens(user._id)
+
+    //6. send cookies
+    const loggedInUser = await User.findById(user._id).select("-password, -refreshToken")
+
+    // whenever you want to send cookies
+    //design some options of cookies
+    // because of these options, no one can modify these cookies
+    // can only be modified through server
+    const options = {
+        httpOnly: true,
+        secure: true
+    }
+
+    //Why to send tokens in json?
+    //so that user can save these tokens at his end 
+    //but you need to have the cookieParser to use cookie
+    return res.
+    status(200)
+    .cookie("accessToken", accessToken, options)
+    .cookie("refreshToken", refreshToken, options)
+    .json(
+        new ApiResponse(
+            200,
+            {
+                user: loggedInUser, accessToken, refreshToken
+            },
+            "User logged in successfully"
+        )
+    )
+})
+
+const logoutUser = asyncHandler(async (req, res) => {
+    //1. clear the refreshToken from user in DB
+    //2. clear the cookies from user's browser
+
+    //Strategy
+    //1. create a middleware to add the "user" object in req
+    //2. add that middleware in "/logout" route
+
+    //1. clear the refreshToken from user in DB
+    await User.findByIdAndUpdate(
+        req.user._id,
+        {
+            $set: {
+                refreshToken: undefined
+            }
+        },
+        {
+            //you get updated response in return   
+            new: true
+        }
+    )
+
+    //2. clear the cookies from user's browser
+    const options = {
+        httpOnly: true,
+        secure: true
+    }
+
+    return res
+    .status(200)
+    .clearCookie("accessToken", options)
+    .clearCookie("refreshToken", options)
+    .json(
+        new ApiResponse(
+            200,
+            {},
+            "User logged out"
+        )
+    )
+})
+
+export {
+    registerUser,
+    loginUser,
+    logoutUser
+}

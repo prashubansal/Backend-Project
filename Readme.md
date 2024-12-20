@@ -444,6 +444,33 @@ How to remove that CORS error? So that our frontend can interact with backend.
 
 - configure the postman for checking the API
 1. create a new collection
-2. 
+2. create environment variables 
+
+## Video16: Access, refresh token, middleware and cookies in backend
+
+### why there are two tokens(Access, refresh)
+- Access token short lived and refresh token long lived.
+
+**Access token** : Till the time you have access token, you can access that features or resources which require authentication.
+
+- suppose your login session expires in 15min, now you have to login again through password.
+- so to prevent this problem, you use "refresh token"
+
+**Refresh Token** : saved in DB and also given to user
+
+- user will be validated through access token only, which will be given after login
+
+- but user do not have to enter password every time to have the new access token, if he have the refresh token, same as stored in DB, then we give him a new access token. 
+
+**Task** : Using access and refresh token methods will create login, logout
+
+1. write "loginUser" method 
+2. write "logoutUser" method using custom middleware
+
+
+
+
+
+
 
 
