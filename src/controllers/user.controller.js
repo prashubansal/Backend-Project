@@ -4,7 +4,7 @@ import {ApiResponse} from '../utils/ApiResponse.js'
 import {User} from "../models/user.model.js"
 import {uploadOnCloudinary} from "../utils/cloudinary.js"
 
-const generateAccessAndRefreshTokens = async(userId){
+const generateAccessAndRefreshTokens = async(userId) => {
     try {
         const user = await User.findById(userId)
         const accessToken = user.generateAccessToken()
@@ -149,7 +149,9 @@ const loginUser = asyncHandler(async (req, res) => {
     const {accessToken, refreshToken} = await generateAccessAndRefreshTokens(user._id)
 
     //6. send cookies
-    const loggedInUser = await User.findById(user._id).select("-password, -refreshToken")
+    const loggedInUser = await User.findById(user._id).select(
+        "-password -refreshToken"
+    )
 
     // whenever you want to send cookies
     //design some options of cookies
@@ -179,11 +181,13 @@ const loginUser = asyncHandler(async (req, res) => {
 })
 
 const logoutUser = asyncHandler(async (req, res) => {
+    console.log(req.cookies);
+    
     //1. clear the refreshToken from user in DB
     //2. clear the cookies from user's browser
 
     //Strategy
-    //1. create a middleware to add the "user" object in req
+    //1. create a middleware(auth.middleware.js) to add the "user" object in req
     //2. add that middleware in "/logout" route
 
     //1. clear the refreshToken from user in DB
