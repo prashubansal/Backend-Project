@@ -480,8 +480,14 @@ How to remove that CORS error? So that our frontend can interact with backend.
 ## Video18: Writing update controllers for user
 
 1. we made "subscription" model 
+2. write user controllers
+- changeCurrentPassword
+- getCurrentUser
+- updateAccountDetails
+- updateUserAvatar
+- updateUserCoverImage
 
-
+3. define their routes
 
 
 
