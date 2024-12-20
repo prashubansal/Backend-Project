@@ -467,6 +467,18 @@ How to remove that CORS error? So that our frontend can interact with backend.
 1. write "loginUser" method 
 2. write "logoutUser" method using custom middleware
 
+## Video17: Access token and Refresh token in backend
+
+- The objective of these tokens is that user does not have to enter password again and again 
+- user will hit a endpoint and send refresh token with request
+- as soon as we get the refresh token, match it with the refresh token stored in the DB and if it is matching, then
+- we will provide new access token and refresh token in the request and new session will start 
+
+1. create a controller "refreshAccessToken"
+2. and make route for it.
+
+
+
 
 
 
