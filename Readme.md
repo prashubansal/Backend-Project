@@ -477,6 +477,11 @@ How to remove that CORS error? So that our frontend can interact with backend.
 1. create a controller "refreshAccessToken"
 2. and make route for it.
 
+## Video18: Writing update controllers for user
+
+1. we made "subscription" model 
+
+
 
 
 
