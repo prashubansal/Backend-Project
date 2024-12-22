@@ -182,7 +182,7 @@ const loginUser = asyncHandler(async (req, res) => {
 })
 
 const logoutUser = asyncHandler(async (req, res) => {
-    console.log(req.cookies);
+    // console.log(req.cookies);
     
     //1. clear the refreshToken from user in DB
     //2. clear the cookies from user's browser
